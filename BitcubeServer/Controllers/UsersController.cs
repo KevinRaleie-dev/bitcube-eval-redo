@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using BitcubeServer.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BitcubeServer.Controllers
 {
-    [Route("api/[controller]")]
+    
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
