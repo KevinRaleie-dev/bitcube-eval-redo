@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BitcubeServer.Models;
 using MongoDB.Driver;
+using BC = BCrypt.Net.BCrypt;
 
 namespace BitcubeServer.Services
 {
@@ -13,7 +14,13 @@ namespace BitcubeServer.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
+            // var options = new CreateIndexOptions() { Unique = true };
+            // var field = new StringFieldDefinition<User>("Email");
+            // var indexDefinition = new IndexKeysDefinitionBuilder<User>().Ascending(field);
+            // var indexModel = new CreateIndexModel<User>(indexDefinition, options);
+
             _users = database.GetCollection<User>(settings.UserCollectionName);
+
         }
 
         public List<User> Get() => _users.Find(user => true).ToList();
@@ -23,8 +30,16 @@ namespace BitcubeServer.Services
 
         public User Create(User user)
         {
-            _users.InsertOne(user);
-            return user;
+            try
+            {
+                user.Password = BC.HashPassword(user.Password);
+                _users.InsertOneAsync(user);
+                return user;   
+            }
+            catch (System.Exception)    
+            {
+                throw;
+            }
         }
 
         public void Update(string id, User userIn) => 

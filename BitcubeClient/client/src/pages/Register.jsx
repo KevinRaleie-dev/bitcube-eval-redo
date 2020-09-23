@@ -21,9 +21,15 @@ const Register = () => {
                 Surname: lastName,
                 Password: password
             });
+            
             console.log(request);
+
         } catch (error) {
-            console.log(error);
+            if(error.response.status === 500){
+                alert('user already exists, try again')
+            }
+
+            return error;
         }
     }
 
