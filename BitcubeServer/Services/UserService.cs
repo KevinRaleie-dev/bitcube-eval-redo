@@ -14,11 +14,6 @@ namespace BitcubeServer.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            // var options = new CreateIndexOptions() { Unique = true };
-            // var field = new StringFieldDefinition<User>("Email");
-            // var indexDefinition = new IndexKeysDefinitionBuilder<User>().Ascending(field);
-            // var indexModel = new CreateIndexModel<User>(indexDefinition, options);
-
             _users = database.GetCollection<User>(settings.UserCollectionName);
 
         }
@@ -34,20 +29,43 @@ namespace BitcubeServer.Services
             {
                 user.Password = BC.HashPassword(user.Password);
                 _users.InsertOneAsync(user);
-                return user;   
+                return user;
             }
-            catch (System.Exception)    
+            catch (System.Exception)
             {
                 throw;
             }
         }
 
-        public void Update(string id, User userIn) => 
+        public User Login(string email, string password)
+        {
+            if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                return null;
+            
+
+            var user = _users.Find<User>(x => x.Email == email).FirstOrDefault();
+
+            // check if the email exists
+            if (user == null)
+                return null;
+            
+            // check if the password matches
+            bool isValidPassword = BCrypt.Net.BCrypt.Verify(password, user.Password);
+
+            if(isValidPassword) {
+                return user;
+            }
+
+            return null;
+
+        }
+
+        public void Update(string id, User userIn) =>
             _users.ReplaceOne(user => user.Id == id, userIn);
-        
-        public void Remove(User userIn) => 
+
+        public void Remove(User userIn) =>
             _users.DeleteOne(user => user.Id == userIn.Id);
-        
+
         public void Remove(string id) =>
             _users.DeleteOne(user => user.Id == id);
     }
