@@ -25,6 +25,12 @@ namespace BitcubeServer.Services
 
         public User Create(User user)
         {
+            var checkUser = _users.Find<User>(x => x.Email == user.Email).FirstOrDefault();
+            if (checkUser != null)
+            {
+                throw new System.Exception("Account is already taken");
+            }
+            
             try
             {
                 user.Password = BC.HashPassword(user.Password);
@@ -39,20 +45,21 @@ namespace BitcubeServer.Services
 
         public User Login(string email, string password)
         {
-            if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 return null;
-            
+
 
             var user = _users.Find<User>(x => x.Email == email).FirstOrDefault();
 
             // check if the email exists
             if (user == null)
                 return null;
-            
+
             // check if the password matches
             bool isValidPassword = BCrypt.Net.BCrypt.Verify(password, user.Password);
 
-            if(isValidPassword) {
+            if (isValidPassword)
+            {
                 return user;
             }
 
