@@ -6,7 +6,7 @@ namespace BitcubeServer.Controllers
 {
     [Route("api/login")]
     [ApiController]
-    [Authorize]
+    // [Authorize]
     public class LoginController : ControllerBase
     {
         private readonly UserService _userService;
@@ -17,24 +17,26 @@ namespace BitcubeServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult<User> Login(string email, string password)
+        public ActionResult<User> Login(User userIn)
         {
-            var user = _userService.Login(email, password);
+            var user = _userService.Login(userIn);
 
-            if (user == null)
+            if (user != null)
             {
                 return BadRequest(new
                 {
                     message = "Invalid email or password"
                 });
             }
+            else {
 
-            return Ok(new {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email
-            });
+                return Ok(new {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email
+                });
+            }
         }
     }
 }

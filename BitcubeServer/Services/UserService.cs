@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BitcubeServer.Models;
 using MongoDB.Driver;
@@ -28,42 +29,49 @@ namespace BitcubeServer.Services
             var checkUser = _users.Find<User>(x => x.Email == user.Email).FirstOrDefault();
             if (checkUser != null)
             {
-                throw new System.Exception("Account is already taken");
+                throw new Exception("Account is already taken");
             }
-            
-            try
+            else
             {
-                user.Password = BC.HashPassword(user.Password);
-                _users.InsertOneAsync(user);
-                return user;
+                try
+                {
+                    user.Password = BC.HashPassword(user.Password);
+                    _users.InsertOneAsync(user);
+                    return user;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
-            catch (System.Exception)
-            {
-                throw;
-            }
+
         }
 
-        public User Login(string email, string password)
+        public User Login(User userIn)
         {
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-                return null;
-
-
-            var user = _users.Find<User>(x => x.Email == email).FirstOrDefault();
-
-            // check if the email exists
-            if (user == null)
-                return null;
-
-            // check if the password matches
-            bool isValidPassword = BCrypt.Net.BCrypt.Verify(password, user.Password);
-
-            if (isValidPassword)
+            if (string.IsNullOrEmpty(userIn.Email) || string.IsNullOrEmpty(userIn.Password))
             {
+                return null;
+            }
+
+            var user = _users.Find<User>(x => x.Email == userIn.Email).FirstOrDefault();
+            // check if the password matches
+            bool isValidPassword = BCrypt.Net.BCrypt.Verify(userIn.Password, user.Password);
+        
+            // check if the email exists
+            if (user != null)
+            {
+                if (isValidPassword)
+                {
+                    return user;
+                }
                 return user;
             }
 
-            return null;
+            else
+            {
+                return null;
+            }
 
         }
 

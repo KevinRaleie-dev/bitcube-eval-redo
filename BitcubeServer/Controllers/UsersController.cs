@@ -33,11 +33,34 @@ namespace BitcubeServer.Controllers
             return user;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public ActionResult<User> Create(User user)
         {
             _userService.Create(user);
             return CreatedAtRoute("GetUser", new { id = user.Id.ToString() }, user);
+        }
+
+        [HttpPost("login")]
+        public ActionResult<User> Login(User userIn)
+        {
+            var user = _userService.Login(userIn);
+
+            if (user == null)
+            {
+                return BadRequest(new
+                {
+                    message = "Invalid email or password"
+                });
+            }
+            else {
+
+                return Ok(new {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email
+                });
+            }
         }
 
         [HttpPut("{id}")]
