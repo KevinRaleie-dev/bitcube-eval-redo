@@ -7,12 +7,14 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
   <ThemeProvider>
     <CSSReset />
     <Router>
+      <Navbar />
       <Switch>
         <Route path='/' component={LandingPage} exact />
         <Route path='/home' component={Home}  exact />

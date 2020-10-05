@@ -4,8 +4,7 @@ import { Box, Button, Flex, Text } from '@chakra-ui/core';
 
 const Navbar = () => {
     return (
-        <div>
-            <Flex 
+    <Flex 
             bg="white" 
             w="100%" 
             p={4} 
@@ -17,7 +16,7 @@ const Navbar = () => {
                     fontSize='3xl' 
                     fontWeight='bold'
                     >
-                        <span role='img' aria-label='Image'>👋🏼</span>BitFriends
+                        <span role='img' aria-label='Image'>👋🏼</span>Friend.ly
                     </Text>
                 </Link>
                 <Box ml={"auto"}
@@ -26,11 +25,10 @@ const Navbar = () => {
                         <Button marginRight={4} variant='outline'>Login</Button>
                     </Link>
                     <Link to="/register">
-                        <Button>Sign Up</Button>
+                        <Button variantColor='blue' bg='blue.300'>Sign Up</Button>
                     </Link>
                 </Box>
-            </Flex>
-        </div>
+    </Flex>
     )
 }
 
