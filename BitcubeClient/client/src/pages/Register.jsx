@@ -1,29 +1,29 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
 import Container from '../components/Container';
 import { Button, FormControl, FormLabel, Input, Stack, Text } from '@chakra-ui/core';
 import { useForm } from 'react-hook-form';
 import AlertModal from '../components/Alert';
 import axios from 'axios';
 
-const Register = () => {
+const Register = ({history}) => {
     const {register, handleSubmit, formState} = useForm();
 
-    const BASE_URL = 'https://localhost:5001/api/users';
+    const BASE_URL = 'https://localhost:5001/api/users/register';
 
     const onSubmit = async (data) => {
 
         const { email, password, firstName, lastName } = data;
         
         try {
-            const request = await axios.post(BASE_URL, {
+            await axios.post(BASE_URL, {
                 Email: email,
                 Name: firstName,
                 Surname: lastName,
                 Password: password
             });
-            
-            console.log(request);
+
+            // if user registration is successful, navigate to the login page
+            history.push('/login');
 
         } catch (error) {
             console.log(error);
@@ -33,7 +33,6 @@ const Register = () => {
 
     return (
         <>
-            <Navbar />
             <Container>
                 <Text fontSize='5xl' fontWeight='bold' marginBottom={4}>Register</Text> 
                 {!formState.isSubmitSuccessful ? <div></div> : <AlertModal status='error' variant='left-accent' description='User already exists' />}
