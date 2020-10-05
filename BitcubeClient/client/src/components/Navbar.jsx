@@ -25,7 +25,7 @@ const Navbar = () => {
                         <Button marginRight={4} variant='outline'>Login</Button>
                     </Link>
                     <Link to="/register">
-                        <Button variantColor='blue' bg='blue.300'>Sign Up</Button>
+                        <Button variantColor='blue' bg='#6b63ff'>Sign Up</Button>
                     </Link>
                 </Box>
     </Flex>

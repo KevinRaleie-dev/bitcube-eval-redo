@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Grid, Text } from '@chakra-ui/core';
-import { Link } from 'react-router-dom'
-import Social from '../images/social.svg';
+import { Link } from 'react-router-dom';
+import sl from '../images/social-life.svg';
 
 const LandingPage = () => {
     return (
@@ -16,13 +16,22 @@ const LandingPage = () => {
                     on here will only be seen by people in your friendlist. Sign up and start making some friends!
                 </Text>
                 <Link to='/register'>
-                    <Button variantColor='blue' marginTop={5} bg='blue.300' color='white'>
+                    <Button
+                    paddingRight="60px"
+                    paddingLeft="60px" 
+                    paddingTop="25px"
+                    paddingBottom="25px"
+                    variantColor='blue' 
+                    marginTop={5}
+                    borderRadius={10} 
+                    bg='#6b63ff' 
+                    color='white'>
                         Get Started
                     </Button>
                 </Link>
             </Box>
             <Box w="100%" h="70vh" justifyContent="center" alignItems="center" display="flex">
-                <img src={Social} alt="social image"/>
+                <img src={sl} alt="social"/>
             </Box>
         </Grid>
     )
