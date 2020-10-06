@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 import LandingPage from './pages/LandingPage';
@@ -9,20 +9,37 @@ import Profile from './pages/Profile';
 import Navbar from './components/Navbar';
 import AuthContext from './context/AuthContext';
 
+let reducer = (user, newUser) => {
+  if (newUser === null) {
+    localStorage.removeItem("user");
+    return initialState;
+  }
+
+  return {...user, ...newUser};
+}
+
+const initialState = {
+  Id: '',
+  Email: '',
+  FirstName: '',
+  LastName: ''
+}
+
+const localState = JSON.parse(localStorage.getItem('user'));
+
 function App() {
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useReducer(reducer, localState || initialState);
 
-  const value = useMemo(() => ({
-    user, 
-    setUser
-  }), [user, setUser])
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user));
+  }, [user]);
 
   return (
   <ThemeProvider>
     <CSSReset />
     <Router>
-      <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{user, setUser}}>
       <Navbar />
       <Switch>
         <Route path='/' component={LandingPage} exact />
@@ -31,7 +48,7 @@ function App() {
         <Route path='/login' component={Login} exact />
         <Route path='/profile' component={Profile} exact />
       </Switch>
-      </AuthContext.Provider>
+    </AuthContext.Provider>
     </Router>
   </ThemeProvider>
   );
