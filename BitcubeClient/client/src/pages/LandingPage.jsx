@@ -2,9 +2,12 @@ import React from 'react';
 import { Box, Button, Grid, Text } from '@chakra-ui/core';
 import { Link } from 'react-router-dom';
 import sl from '../images/social-life.svg';
+import Navbar from '../components/Navbar';
 
 const LandingPage = () => {
     return (
+    <>
+        <Navbar />
         <Grid templateColumns="repeat(2, 1fr)" gap={3} padding={10}>
             <Box w="100%" h="70vh" marginTop={20}>
                 <Text fontSize='6xl' fontWeight='bold'>
@@ -34,6 +37,7 @@ const LandingPage = () => {
                 <img src={sl} alt="social"/>
             </Box>
         </Grid>
+    </>
     )
 }
 

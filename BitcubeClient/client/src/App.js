@@ -19,10 +19,10 @@ let reducer = (user, newUser) => {
 }
 
 const initialState = {
-  Id: '',
-  Email: '',
-  FirstName: '',
-  LastName: ''
+  Id: undefined,
+  Email: undefined,
+  FirstName: undefined,
+  LastName: undefined
 }
 
 const localState = JSON.parse(localStorage.getItem('user'));
@@ -40,7 +40,7 @@ function App() {
     <CSSReset />
     <Router>
     <AuthContext.Provider value={{user, setUser}}>
-      <Navbar />
+      {/* <Navbar /> */}
       <Switch>
         <Route path='/' component={LandingPage} exact />
         <Route path='/home' component={Home}  exact />

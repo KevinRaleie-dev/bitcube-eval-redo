@@ -4,6 +4,7 @@ import { Button, FormControl, FormLabel, Input, Stack, Text } from '@chakra-ui/c
 import { useForm } from 'react-hook-form';
 import AlertModal from '../components/Alert';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
 
 const Register = ({history}) => {
     const {register, handleSubmit, formState} = useForm();
@@ -33,6 +34,7 @@ const Register = ({history}) => {
 
     return (
         <>
+            <Navbar />
             <Container>
                 <Text fontSize='5xl' fontWeight='bold' marginBottom={4}>Register</Text> 
                 {!formState.isSubmitSuccessful ? <div></div> : <AlertModal status='error' variant='left-accent' description='User already exists' />}

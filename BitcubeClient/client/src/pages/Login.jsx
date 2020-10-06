@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
 import Container from '../components/Container';
 import { useForm } from 'react-hook-form';
-import { FormControl, Stack, FormLabel, Input, Button, Text } from '@chakra-ui/core';
+import { FormControl, Stack, FormLabel, Input, Button, Text, Box } from '@chakra-ui/core';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
+import AlertModal from '../components/Alert';
+import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 const Login = ({history}) => {
     const { user, setUser } = useContext(AuthContext);
@@ -26,9 +29,11 @@ const Login = ({history}) => {
     };
 
     return (
-        
+        <>
+            <Navbar />
             <Container>
                 <Text fontSize='5xl' fontWeight='bold' marginBottom={4}>Login</Text>
+                {!formState.isSubmitSuccessful ? <div></div> : <AlertModal variant='left-accent' status='error' description='Invalid email or password' />}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Stack spacing={3}>
                     <FormControl isRequired>
@@ -43,12 +48,21 @@ const Login = ({history}) => {
                     <Button
                     type='submit' 
                     isLoading={formState.isSubmitting}
-                    loadingText='Logging in...'
-                    >Login</Button>
+                    loadingText='Signing in...'
+                    >Sign In</Button>
                     </Stack>
                 </form>
                 {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
+                <Box display='flex' flexDirection='row' my={5}>
+                    <Text marginRight={2}>
+                        Do not have an account? 
+                    </Text>
+                    <Link to='/register'>
+                       <Text fontWeight='bold'>Register here.</Text>
+                    </Link>
+                </Box>
             </Container>
+        </>
     )
 }
 

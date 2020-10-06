@@ -1,14 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Box, Button, Flex, Text } from '@chakra-ui/core';
-import AuthContext from '../context/AuthContext';
 
-const Navbar = () => {
-    const {user} = React.useContext(AuthContext);
-
-    const logout = () => {
-            // set the current user to null 
-    };
+const Navbar = (props) => {
 
     return (
     <Flex 
@@ -26,24 +20,12 @@ const Navbar = () => {
                         <span role='img' aria-label='Image'>👋🏼</span>Friend.ly
                     </Text>
                 </Link>
-                <Box ml={"auto"}
-                >{
-                    user ?  <Link to="/login">
-                                <Button variantColor='blue' bg='#6b63ff'>Log Out</Button>
-                            </Link> : 
-                    <>
-                        <Link to="/login">
-                            <Button marginRight={4} variant='outline'>Login</Button>
-                        </Link>
-                        <Link to="/register">
-                            <Button variantColor='blue' bg='#6b63ff'>Sign Up</Button>
-                        </Link>
-                    </>
-                    
-                    }
+                <Box ml={"auto"}>     
+                    <Button onClick={() => props.history.push('/login')} marginRight={4} variant='outline'>Sign in</Button>       
+                    <Button onClick={() => props.history.push('/register')} variantColor='blue' bg='#6b63ff'>Sign up</Button>  
                 </Box>
     </Flex>
     )
 }
 
-export default Navbar;
+export default withRouter(Navbar);
