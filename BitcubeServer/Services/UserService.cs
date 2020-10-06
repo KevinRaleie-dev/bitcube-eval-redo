@@ -61,9 +61,9 @@ namespace BitcubeServer.Services
             // check if the email exists
             if (user != null)
             {
-                if (isValidPassword)
+                if (!isValidPassword)
                 {
-                    return user;
+                    return null;
                 }
                 return user;
             }
