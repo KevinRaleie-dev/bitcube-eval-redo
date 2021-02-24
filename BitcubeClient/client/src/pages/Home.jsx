@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
 import Container from '../components/Container';
-import Nav from '../components/Nav';
 import AuthContext from '../context/AuthContext';
 
 const Home = () => {
     const {user} = useContext(AuthContext);
     return (
         <>
-            <Nav />
-            <Container>
+            <Container marginTop={8}>
                 <h1>Home</h1>
                 <h3>Welcome, {user.FirstName}</h3>
             </Container>

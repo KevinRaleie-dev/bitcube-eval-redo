@@ -6,10 +6,9 @@ import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 import AlertModal from '../components/Alert';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 
 const Login = ({history}) => {
-    const { user, setUser } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
     const {register, handleSubmit, formState} = useForm();
 
     const onSubmit = async (data) => {
@@ -30,10 +29,9 @@ const Login = ({history}) => {
 
     return (
         <>
-            <Navbar />
-            <Container>
+            <Container marginTop={8}>
                 <Text fontSize='5xl' fontWeight='bold' marginBottom={4}>Login</Text>
-                {!formState.isSubmitSuccessful ? <div></div> : <AlertModal variant='left-accent' status='error' description='Invalid email or password' />}
+                {!formState.isSubmitSuccessful ? <></> : <AlertModal variant='left-accent' status='error' description="Invalid email or password" />}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Stack spacing={3}>
                     <FormControl isRequired>
@@ -44,7 +42,6 @@ const Login = ({history}) => {
                         <FormLabel htmlFor='password'>Password</FormLabel>
                         <Input name='password' ref={register} type='password' id='password' placeholder=''/>
                     </FormControl>
-                    {/* <Checkbox value="Remember">Remember me</Checkbox>   */}
                     <Button
                     type='submit' 
                     isLoading={formState.isSubmitting}

@@ -4,7 +4,6 @@ import { Button, FormControl, FormLabel, Input, Stack, Text } from '@chakra-ui/c
 import { useForm } from 'react-hook-form';
 import AlertModal from '../components/Alert';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
 
 const Register = ({history}) => {
     const {register, handleSubmit, formState} = useForm();
@@ -34,8 +33,7 @@ const Register = ({history}) => {
 
     return (
         <>
-            <Navbar />
-            <Container>
+            <Container marginTop={8}>
                 <Text fontSize='5xl' fontWeight='bold' marginBottom={4}>Register</Text> 
                 {!formState.isSubmitSuccessful ? <div></div> : <AlertModal status='error' variant='left-accent' description='User already exists' />}
                    <form onSubmit={handleSubmit(onSubmit)}>
@@ -56,6 +54,9 @@ const Register = ({history}) => {
                         <FormLabel htmlFor='password'>Password</FormLabel>
                         <Input name='password' ref={register} id='password' type='password' placeholder='Enter a password'/>
                     </FormControl>
+                    {/* <Text color={
+                        formState.password.length < 6 ? 'red' : 'gray.500'
+                    }>Password must be greater than 6 characters</Text> */}
                     <Button
                     type='submit' 
                     isLoading={formState.isSubmitting}
