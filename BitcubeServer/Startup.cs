@@ -32,8 +32,11 @@ namespace BitcubeServer
         {
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
             services.AddSingleton<UserService>();
+            services.AddSingleton<PostService>();
             services.Configure<UsersDatabaseSettings>(Configuration.GetSection(nameof(UsersDatabaseSettings)));
+            services.Configure<PostsDatabaseSettings>(Configuration.GetSection(nameof(PostsDatabaseSettings)));
             services.AddSingleton<IUsersDatabaseSettings>(sp => sp.GetRequiredService<IOptions<UsersDatabaseSettings>>().Value);
+            services.AddSingleton<IPostsDatabaseSettings>(sp => sp.GetRequiredService<IOptions<PostsDatabaseSettings>>().Value);
             services.AddCors();
         }
 
@@ -46,16 +49,18 @@ namespace BitcubeServer
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(options => {
+            app.UseCors(options =>
+            {
                 options.WithOrigins("http://localhost:3000")
+                .AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod();
             });
-            
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+
 
             app.UseAuthorization();
 
