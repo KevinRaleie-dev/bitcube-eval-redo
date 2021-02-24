@@ -2,18 +2,16 @@ import React from 'react';
 import { Box, Button, Grid, Text } from '@chakra-ui/core';
 import { Link } from 'react-router-dom';
 import sl from '../images/social-life.svg';
-import Navbar from '../components/Navbar';
 
 const LandingPage = () => {
     return (
     <>
-        <Navbar />
         <Grid templateColumns="repeat(2, 1fr)" gap={3} padding={10}>
             <Box w="100%" h="70vh" marginTop={20}>
                 <Text fontSize='6xl' fontWeight='bold'>
                     The Platform For Building Friendships
                 </Text>
-                <Text fontSize='xl'>
+                <Text fontSize='lg' opacity={0.7}>
                     Share awesome content with people you meet on the platform. Write posts about your day, week or
                     just about anything that floats your boat. Friend.ly is a platform for friends so anything you put
                     on here will only be seen by people in your friendlist. Sign up and start making some friends!
