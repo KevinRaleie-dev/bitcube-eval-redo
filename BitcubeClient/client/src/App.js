@@ -6,8 +6,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
-import Navbar from './components/Navbar';
 import AuthContext from './context/AuthContext';
+import Navbar from './components/Navbar';
 
 let reducer = (user, newUser) => {
   if (newUser === null) {
@@ -40,7 +40,7 @@ function App() {
     <CSSReset />
     <Router>
     <AuthContext.Provider value={{user, setUser}}>
-      {/* <Navbar /> */}
+      <Navbar />
       <Switch>
         <Route path='/' component={LandingPage} exact />
         <Route path='/home' component={Home}  exact />
