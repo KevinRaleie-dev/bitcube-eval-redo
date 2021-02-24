@@ -1,14 +1,16 @@
-import React, { useContext } from 'react'
+import React, {useContext} from 'react'
+import AddPost from '../components/AddPost';
 import Container from '../components/Container';
+import Posts from '../components/Posts';
 import AuthContext from '../context/AuthContext';
 
 const Home = () => {
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     return (
         <>
             <Container marginTop={8}>
-                <h1>Home</h1>
-                <h3>Welcome, {user.FirstName}</h3>
+                <AddPost firstName={user.FirstName} />
+                <Posts />
             </Container>
         </>
     )
