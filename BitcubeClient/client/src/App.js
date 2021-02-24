@@ -1,13 +1,9 @@
 import React, { useReducer, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core';
-import LandingPage from './pages/LandingPage';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Profile from './pages/Profile';
 import AuthContext from './context/AuthContext';
 import Navbar from './components/Navbar';
+import Routes from './Routes';
 
 let reducer = (user, newUser) => {
   if (newUser === null) {
@@ -42,11 +38,7 @@ function App() {
     <AuthContext.Provider value={{user, setUser}}>
       <Navbar />
       <Switch>
-        <Route path='/' component={LandingPage} exact />
-        <Route path='/home' component={Home}  exact />
-        <Route path='/register' component={Register} exact />
-        <Route path='/login' component={Login} exact />
-        <Route path='/profile' component={Profile} exact />
+        <Routes />
       </Switch>
     </AuthContext.Provider>
     </Router>
