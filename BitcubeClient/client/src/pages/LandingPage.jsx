@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Button, Grid, Text } from '@chakra-ui/core';
 import { Link } from 'react-router-dom';
 import sl from '../images/social-life.svg';
+import {withRouter} from 'react-router-dom';
 
 const LandingPage = () => {
     return (
@@ -39,4 +40,4 @@ const LandingPage = () => {
     )
 }
 
-export default LandingPage;
+export default withRouter(LandingPage);
