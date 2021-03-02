@@ -1,8 +1,9 @@
-import React from 'react'
+import React from 'react';
+import List from './List';
 import { useQuery } from 'react-query';
 import {fetchPosts} from '../utils/api';
 
-const Posts = () => {
+const Posts = ({firstName}) => {
     const {data, isLoading, isError, error} = useQuery('posts', fetchPosts);
 
     
@@ -20,7 +21,8 @@ const Posts = () => {
         <>
             {
                 sortedData.reverse().map((post) => (
-                    <li key={post.Id}>{post.Content}</li>
+                        <List key={post.Id} post={post.Content} />
+                    // <li key={post.Id}>{post.Content}</li>
                 ))
             }
         </>

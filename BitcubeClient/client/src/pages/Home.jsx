@@ -10,7 +10,7 @@ const Home = () => {
         <>
             <Container marginTop={8}>
                 <AddPost firstName={user.FirstName} />
-                <Posts />
+                <Posts firstName={user.FirstName} />
             </Container>
         </>
     )
