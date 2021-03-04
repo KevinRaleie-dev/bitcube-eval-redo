@@ -3,35 +3,35 @@ import Container from '../components/Container';
 import { useForm } from 'react-hook-form';
 import { FormControl, Stack, FormLabel, Input, Button, Text, Box } from '@chakra-ui/core';
 import AuthContext from '../context/AuthContext';
-import axios from 'axios';
 import AlertModal from '../components/Alert';
 import { Link } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import { loginUser } from "../utils/api";
 
 const Login = ({history}) => {
     const { setUser } = useContext(AuthContext);
+    const mutation = useMutation(loginUser);
     const {register, handleSubmit, formState} = useForm();
 
     const onSubmit = async (data) => {
-        
-        const BASE_URL = 'https://localhost:5001/api/users/login';
-
-        try {
-            const response = await axios.post(BASE_URL, data);
-
-            setUser(response.data);
-
-            history.push('/home');
-            
-        } catch (error) {
-            console.log(error);
-        }
+        mutation.mutate({
+            Email: data.email,
+            Password: data.password
+        },{
+            onSettled: (data, error, variables, context) => {
+                if (data) {
+                    setUser(data);
+                    history.push('/home');
+                }
+            },
+        })
     };
 
     return (
         <>
             <Container marginTop={8}>
                 <Text fontSize='5xl' fontWeight='bold' marginBottom={4}>Login</Text>
-                {!formState.isSubmitSuccessful ? <></> : <AlertModal variant='left-accent' status='error' description="Invalid email or password" />}
+                {!formState.isSubmitSuccessful ? '' : <AlertModal variant='left-accent' status='error' description='Invalid email or password' />}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Stack spacing={3}>
                     <FormControl isRequired>

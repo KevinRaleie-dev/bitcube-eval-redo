@@ -2,40 +2,34 @@ import React from 'react';
 import Container from '../components/Container';
 import { Button, FormControl, FormLabel, Input, Stack, Text } from '@chakra-ui/core';
 import { useForm } from 'react-hook-form';
+import { registerUser } from '../utils/api';
+import { useMutation } from 'react-query';
 import AlertModal from '../components/Alert';
-import axios from 'axios';
 
 const Register = ({history}) => {
-    const {register, handleSubmit, formState} = useForm();
-
-    const BASE_URL = 'https://localhost:5001/api/users/register';
+    const mutation = useMutation(registerUser);
+    const { register, handleSubmit, formState } = useForm();
 
     const onSubmit = async (data) => {
-
-        const { email, password, firstName, lastName } = data;
-        
-        try {
-            await axios.post(BASE_URL, {
-                Email: email,
-                Name: firstName,
-                Surname: lastName,
-                Password: password
-            });
-
-            // if user registration is successful, navigate to the login page
-            history.push('/login');
-
-        } catch (error) {
-            console.log(error);
-        }
-
+        mutation.mutate({
+            Email: data.email,
+            Name: data.firstName,
+            Surname: data.lastName,
+            Password: data.password
+        }, {
+            onSettled: (data, error, variables, context) => {
+                if (data) {
+                    history.push('/login');
+                }
+            }
+        })
     }
 
     return (
         <>
             <Container marginTop={8}>
                 <Text fontSize='5xl' fontWeight='bold' marginBottom={4}>Register</Text> 
-                {!formState.isSubmitSuccessful ? <div></div> : <AlertModal status='error' variant='left-accent' description='User already exists' />}
+                {!formState.isSubmitSuccessful ? '' : <AlertModal status='error' variant='left-accent' description='User already exists' />}
                    <form onSubmit={handleSubmit(onSubmit)}>
                     <Stack spacing={3}>
                     <FormControl isRequired>
@@ -54,9 +48,6 @@ const Register = ({history}) => {
                         <FormLabel htmlFor='password'>Password</FormLabel>
                         <Input name='password' ref={register} id='password' type='password' placeholder='Enter a password'/>
                     </FormControl>
-                    {/* <Text color={
-                        formState.password.length < 6 ? 'red' : 'gray.500'
-                    }>Password must be greater than 6 characters</Text> */}
                     <Button
                     type='submit' 
                     isLoading={formState.isSubmitting}
