@@ -14,6 +14,9 @@ const Navbar = (props) => {
             p={4} 
             color="black"
             borderBottomWidth='1px'
+            top={0}
+            position='sticky'
+            zIndex={2}
             >
                 <Link to={Object.keys(user).length === 0 ? '/' : '/home'}>
                     <Text 
